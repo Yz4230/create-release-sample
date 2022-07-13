@@ -32,10 +32,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: create release
-        run: gh release create $REF_TAG -t $REF_TAG --generate-notes
+        run: gh release create $REF_TAG -R $REPOSITORY -t $REF_TAG --generate-notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
           REF_TAG: ${{ github.ref }} 
+          REPOSITORY: ${{ github.repository }}
 
   # deploy:
   #   runs-on: ubuntu-latest
