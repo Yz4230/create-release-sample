@@ -5,7 +5,7 @@ on:
     tags:
       - "v*"
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,8 +19,27 @@ jobs:
 
       # - name: build
       #   run: npm run build
+
+      - run: mkdir dist && cp main.py dist/main.py
+
+      - name: upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
+
+  release:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - name: download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
       
-      - uses: actions/create-release@v1
+      - name: create Release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
