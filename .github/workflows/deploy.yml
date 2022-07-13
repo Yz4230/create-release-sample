@@ -37,7 +37,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: dist
       
       - name: create Release
         uses: actions/create-release@v1
